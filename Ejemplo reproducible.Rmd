@@ -9,6 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE , warning = FALSE, message = FALSE)
 library(tidyverse)
 library (kableExtra)
+library(knitr)
 
 ```
 ##PARTES DE UN RMD
@@ -32,8 +33,28 @@ threats <- readr::read_csv("https://raw.githubusercontent.com/rfordatascience/ti
  
 ```
 
-## DATOS DE SUDAMERICA
+## DATOS DE SUDAMERICA CON INLINE CODE
 Numero de especies en Sudamerica de la base de datos  es de `r plants %>% filter (continent == "South America") %>% nrow()` especies
+
+Inline code permite entrelazar codigo con el texto, actualizar medias, maximos, minimos, valores p, diferencias estadisticas, etc... Trabaja VECTORES no TABLAS
+
+### TABLAS
+Se genera un script y se presenta con un chunk de r 
+```{r, echo=FALSE}
+data("msleep")
+Tabla <-msleep %>% group_by(vore) %>% summarise_at("sleep_total", .funs= list(Mean = mean, SD = sd)) %>% filter(!is.na(vore)) %>%    arrange(desc(Mean)) 
+kable(Tabla, digits = 2) %>% kable_styling(bootstrap_options = c("striped", "hover", "condesed"), full_width = F)
+
+```
+
+##Tabla 2
+```{r, echo=FALSE}
+data("msleep")
+Tabla2 <- msleep %>%  group_by(vore) %>%  summarise_at("sleep_total", .funs = list(Media = mean, DS = sd)) %>% filter(!is.na(order)) %>% arrange(desc(Media)) 
+kable(Tabla2, digits = 2, caption = "Tabla de Media y DS de sueño segun dieta") %>% kable_styling(bootstrap_options = c("striped", "hover", "condensed"), full_width = F) %>% scroll_box(width = "500px", height = "200px") 
+```
+
+ 
 
  
  
